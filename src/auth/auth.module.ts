@@ -5,10 +5,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    PassportModule,
-    JwtModule.register({ //TODO: Acho que pode tirar! Esse é pra criar o token
-      signOptions: { expiresIn: '60s' },
-    }),
+    PassportModule    
   ],
   providers: [JwtStrategy],
 })
