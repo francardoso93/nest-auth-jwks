@@ -3,8 +3,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 
-import { jwtConstants } from '../constants';
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
@@ -16,13 +14,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         // jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`, //CorrectOne for PROD
-        jwksUri: 'https://admin.rac.dev.totvs.io/totvs.rac/.well-known/openid-configuration/jwks', //RAC HardCoded
+        jwksUri: 'https://admin.rac.dev.totvs.io/totvs.rac/.well-known/openid-configuration/jwks', //RAC OAuth HardCoded
       }),
-      // secretOrKey: jwtConstants.secret,
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: any) { //Does something with request payload before it goes to controller
+    // I want the controller to know the tenantId from request (JWT claim)
+    // TODO: É AQUI QUE PEGA O TENANT RAPAZEADA
     return { userId: payload.sub, username: payload.username };
   }
 }
