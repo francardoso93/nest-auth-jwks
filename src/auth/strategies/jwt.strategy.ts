@@ -19,9 +19,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) { //Does something with request payload before it goes to controller
-    // I want the controller to know the tenantId from request (JWT claim)
-    // TODO: É AQUI QUE PEGA O TENANT RAPAZEADA
-    return { userId: payload.sub, username: payload.username };
+  async validate(JWTPayload: any) { //Does something with request payload before it goes to controller
+    // console.log(JWTPayload);
+    return { client_id: JWTPayload.client_id, tenantId: JWTPayload.tenantId };
   }
 }
